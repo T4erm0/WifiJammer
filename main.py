@@ -48,6 +48,7 @@ def attack():
         print("Stopping...")
         sys.exit()
 
+
 #Run everything
 install_packages()
 monitor_mode_on()
